@@ -29,19 +29,37 @@ class Router
             )
             */
             foreach ($tokens as $i => $token) {
-                //$tokenのなかに:があったら
+                //$tokenのなかに:があったら正規表現の形式にして変換する
                 if (0 === strpos($token, ':')) {
                     //$name = action
                     $name = substr($token, 1);
                     $token = '(?P<' . $name . '>[^/]+)';
                 }
+                /*
+                Array
+                    (
+                        [0] => item
+                        [1] => (?P<action>[^/]+)
+                    )
+                */
                 $tokens[$i] = $token;
             }
-
+            //分割したURLをサイドスラッシュでつなげて変換済みの値として$routes変数に格納
+            ///item/(?P<action>[^/]+)
             $pattern = '/' . implode('/', $tokens);
             $routes[$pattern] = $params;
         }
+        
+        /*
+        Array
+            (
+                [/item/(?P<action>[^/]+)] => Array
+                    (
+                        [controller] => item
+                    )
 
+            )
+        */
         return $routes;
     }
 
@@ -58,7 +76,6 @@ class Router
         foreach ($this->routes as $pattern => $params) {
             if (preg_match('#^' . $pattern . '$#', $path_info, $matches)) {
                 $params = array_merge($params, $matches);
-
                 return $params;
             }
         }
