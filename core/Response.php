@@ -7,9 +7,8 @@ class Response
     protected $status_text = 'OK';
     protected $http_headers = array();
 
-    /**
-     * レスポンスを送信
-     */
+    //レスポンスを送信
+
     public function send()
     {
         header('HTTP/1.1 ' . $this->status_code . ' ' . $this->status_text);
@@ -21,34 +20,23 @@ class Response
         echo $this->content;
     }
 
-    /**
-     * コンテンツを設定
-     *
-     * @param string $content
-     */
+    //コンテンツを設定
+
     public function setContent($content)
     {
         $this->content = $content;
     }
 
-    /**
-     * ステータスコードを設定
-     *
-     * @param integer $status_code
-     * @param string $status_code
-     */
+    //ステータスコードを設定
+
     public function setStatusCode($status_code, $status_text = '')
     {
         $this->status_code = $status_code;
         $this->status_text = $status_text;
     }
 
-    /**
-     * HTTPレスポンスヘッダを設定
-     *
-     * @param string $name
-     * @param mixed $value
-     */
+    //HTTPレスポンスヘッダを設定
+
     public function setHttpHeader($name, $value)
     {
         $this->http_headers[$name] = $value;
