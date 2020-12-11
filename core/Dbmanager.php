@@ -2,8 +2,11 @@
 
 class DbManager
 {
+    //接続情報であるPDOクラスのインスタンスを$connections のなかに配列で保持
     protected $connections = array();
+    //テーブルごとのRepositotyクラスと接続名の対応を格納
     protected $repository_connection_map = array();
+    //各リポジトリ（UserRepositoryなど）のインスタンスが入ってる
     protected $repositories = array();
 
     //データベースへ接続
@@ -38,6 +41,7 @@ class DbManager
             return current($this->connections);
         }
 
+        //接続情報であるPDOクラスのインスタンスを$connections のなかに配列で保持
         return $this->connections[$name];
     }
 
@@ -75,8 +79,11 @@ class DbManager
     {
         if (!isset($this->repositories[$repository_name])) {
             $repository_class = $repository_name . 'Repository';
+            //コネクションを取得（接続情報であるPDOクラスのインスタンス）
             $con = $this->getConnectionForRepository($repository_name);
-
+            
+            //phpでは変数にクラス名を文字列で入れておくことで動的なクラス生成が可能
+            //$repository = new UserRepository($con);
             $repository = new $repository_class($con);
 
             $this->repositories[$repository_name] = $repository;
