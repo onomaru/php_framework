@@ -6,9 +6,12 @@ class ClassLoader
     protected $dirs;
 
 
-    // オートロード実行メソッド
+    // オートローダクラス（登録）実行メソッド
     public function register()
     {
+        //インスタンスを生成しようとした場合、そのクラスが未定義であればフックに登録しておいたメソッドを実行させる仕組み。
+        //これによりオートロードの仕組み作りに利用できる。
+        //クラスをインスタンス化した場合、未定義であれば特定のメソッドを実行するためのメソッド
         // loadClassメソッドを実行する
         spl_autoload_register(array($this, 'loadClass'));
     }
